@@ -36,7 +36,6 @@ export function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <Wrench className="h-8 w-8 text-forest-500" />
             <img 
               src="/Logo-removebg-preview (1).png" 
               alt="HandyNaija" 
