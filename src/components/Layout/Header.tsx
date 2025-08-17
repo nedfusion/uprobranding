@@ -40,7 +40,7 @@ export function Header() {
             <img 
               src="/Logo-removebg-preview (1).png" 
               alt="HandyNaija" 
-              className="h-8 w-auto"
+              className="h-20 w-20"
             />
           </Link>
 

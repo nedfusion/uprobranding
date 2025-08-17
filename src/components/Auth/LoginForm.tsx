@@ -38,7 +38,7 @@ export function LoginForm() {
             <img 
               src="/Logo-removebg-preview (1).png" 
               alt="HandyNaija" 
-              className="h-16 w-auto"
+              className="h-32 w-32"
             />
           </div>
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
