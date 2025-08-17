@@ -13,12 +13,14 @@ import {
   BarChart3,
   Shield,
   Search,
-  BookOpen
+  BookOpen,
+  X
 } from 'lucide-react';
 
 export function Sidebar() {
   const { user } = useAuth();
   const location = useLocation();
+  const [isMobileOpen, setIsMobileOpen] = React.useState(false);
 
   if (!user) return null;
 
@@ -66,13 +68,38 @@ export function Sidebar() {
   const menuItems = getMenuItems();
 
   return (
-    <div className="w-64 bg-white shadow-sm border-r h-full">
+    <>
+      {/* Mobile Sidebar Overlay */}
+      {isMobileOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setIsMobileOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div className={`
+        fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white shadow-sm border-r h-full transform transition-transform duration-300 ease-in-out lg:transform-none
+        ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
+        {/* Mobile Close Button */}
+        <div className="lg:hidden flex justify-end p-4">
+          <button
+                onClick={() => setIsMobileOpen(false)}
+            onClick={() => setIsMobileOpen(false)}
+            className="p-2 rounded-md text-gray-600 hover:text-gray-800 hover:bg-gray-100"
+          >
+            <X className="h-6 w-6" />
+          </button>
+        </div>
+
       <div className="p-4 border-b">
         <h3 className="font-semibold text-gray-900 capitalize">
           {user.type} Panel
         </h3>
         <p className="text-sm text-gray-500">{user.firstName} {user.lastName}</p>
       </div>
+    </>
 
       <nav className="mt-4">
         {menuItems.map((item) => {

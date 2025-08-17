@@ -105,7 +105,7 @@ export function ServiceSearch() {
     <div className="min-h-screen bg-gray-50">
       {/* Search Header */}
       <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="flex flex-col space-y-4">
             {/* Search Bar */}
             <div className="relative flex-1">
@@ -115,16 +115,16 @@ export function ServiceSearch() {
                 placeholder="Search for handymen or services..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent text-sm sm:text-base"
               />
             </div>
 
             {/* Quick Filters */}
-            <div className="flex flex-wrap gap-4 items-center">
+            <div className="flex flex-wrap gap-2 sm:gap-4 items-center">
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent"
+                className="px-2 sm:px-3 py-1 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent text-sm"
               >
                 <option value="">All Services</option>
                 {Object.entries(SERVICE_CATEGORIES).map(([key, value]) => (
@@ -135,7 +135,7 @@ export function ServiceSearch() {
               <select
                 value={selectedState}
                 onChange={(e) => setSelectedState(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent"
+                className="px-2 sm:px-3 py-1 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent text-sm"
               >
                 <option value="">All States</option>
                 {NIGERIAN_STATES.map(state => (
@@ -146,7 +146,7 @@ export function ServiceSearch() {
               <select
                 value={rating}
                 onChange={(e) => setRating(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent"
+                className="px-2 sm:px-3 py-1 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent text-sm"
               >
                 <option value="">Any Rating</option>
                 <option value="4.5">4.5+ Stars</option>
@@ -156,7 +156,7 @@ export function ServiceSearch() {
 
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
+                className="flex items-center px-3 sm:px-4 py-1 sm:py-2 border border-gray-300 rounded-md hover:bg-gray-50 text-sm"
               >
                 <Filter className="h-4 w-4 mr-2" />
                 More Filters
@@ -167,20 +167,20 @@ export function ServiceSearch() {
       </div>
 
       {/* Results */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-2 sm:gap-0">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
             {filteredHandymen.length} Handymen Found
           </h2>
           
-          <select className="px-3 py-2 border border-gray-300 rounded-md">
+          <select className="px-3 py-2 border border-gray-300 rounded-md text-sm">
             <option>Sort by Relevance</option>
             <option>Highest Rated</option>
           </select>
         </div>
 
         {/* Handymen Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {filteredHandymen.map(handyman => (
             <HandymanCard
               key={handyman.id}
@@ -194,12 +194,12 @@ export function ServiceSearch() {
 
         {/* No Results */}
         {filteredHandymen.length === 0 && (
-          <div className="text-center py-12">
+          <div className="text-center py-8 sm:py-12">
             <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-2">
               No handymen found
             </h3>
-            <p className="text-gray-500">
+            <p className="text-sm sm:text-base text-gray-500">
               Try adjusting your search criteria or browse all available services.
             </p>
           </div>

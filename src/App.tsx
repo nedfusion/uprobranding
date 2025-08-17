@@ -34,8 +34,8 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
       <Header />
       <div className="flex">
         {showSidebar && <Sidebar />}
-        <main className={`flex-1 ${showSidebar ? 'ml-0' : ''}`}>
-          <div className={showSidebar ? 'p-8' : ''}>
+        <main className={`flex-1 ${showSidebar ? 'lg:ml-0' : ''}`}>
+          <div className={showSidebar ? 'p-4 sm:p-6 lg:p-8' : ''}>
             {children}
           </div>
         </main>

@@ -55,31 +55,31 @@ export function LandingPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-forest-600 via-forest-700 to-forest-800 text-white py-20">
+      <section className="bg-gradient-to-br from-forest-600 via-forest-700 to-forest-800 text-white py-12 sm:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
                 Find Trusted
                 <span className="block text-white">Handymen</span>
                 Near You
               </h1>
-              <p className="text-xl mb-8 text-forest-100">
+              <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-forest-100">
                 Connect with skilled professionals for all your home repair and maintenance needs across Nigeria.
               </p>
               
               {!user ? (
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                   <Link
                     to="/auth/register"
-                    className="bg-white text-forest-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center"
+                    className="bg-white text-forest-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center text-center"
                   >
                     Find Services
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                   <Link
                     to="/auth/register"
-                    className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-forest-900 transition-colors inline-flex items-center justify-center"
+                    className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-white hover:text-forest-900 transition-colors inline-flex items-center justify-center text-center"
                   >
                     Join as Handyman
                   </Link>
@@ -87,7 +87,7 @@ export function LandingPage() {
               ) : (
                 <Link
                   to={`/${user.type}/dashboard`}
-                  className="bg-white text-forest-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center"
+                  className="bg-white text-forest-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center text-center"
                 >
                   Go to Dashboard
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -96,7 +96,7 @@ export function LandingPage() {
             </div>
 
             <div className="relative">
-              <div className="bg-white rounded-2xl p-6 shadow-xl">
+              <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-xl">
                 <div className="flex items-center mb-4">
                   <Search className="h-5 w-5 text-gray-400 mr-3" />
                   <input
@@ -106,11 +106,11 @@ export function LandingPage() {
                     readOnly
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {services.slice(0, 6).map(service => (
                     <button
                       key={service}
-                      className="text-left text-gray-700 hover:text-blue-600 py-2 px-3 rounded hover:bg-blue-50 transition-colors text-sm"
+                      className="text-left text-gray-700 hover:text-blue-600 py-2 px-3 rounded hover:bg-blue-50 transition-colors text-xs sm:text-sm"
                     >
                       {service}
                     </button>
@@ -123,15 +123,15 @@ export function LandingPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-8 sm:py-12 lg:py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl font-bold text-forest-600 mb-2">
+                <div className="text-2xl sm:text-3xl font-bold text-forest-600 mb-2">
                   {stat.number}
                 </div>
-                <div className="text-gray-600">{stat.label}</div>
+                <div className="text-sm sm:text-base text-gray-600">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -139,29 +139,29 @@ export function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20">
+      <section className="py-12 sm:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
               Why Choose HandyNaija?
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
               We make it easy to find and book trusted handymen for all your home service needs
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
                 <div key={index} className="text-center">
-                  <div className="w-16 h-16 bg-forest-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Icon className="h-8 w-8 text-forest-600" />
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-forest-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-forest-600" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-sm sm:text-base text-gray-600">
                     {feature.description}
                   </p>
                 </div>
@@ -172,50 +172,50 @@ export function LandingPage() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
               How It Works
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-lg sm:text-xl text-gray-600">
               Get your home services done in just three simple steps
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-forest-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-forest-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-lg sm:text-xl font-bold">
                 1
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
                 Search & Compare
               </h3>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 Browse handymen in your area, compare ratings, and read reviews
               </p>
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-forest-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-forest-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-lg sm:text-xl font-bold">
                 2
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
                 Book & Schedule
               </h3>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 Choose your preferred handyman and schedule a convenient time
               </p>
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-forest-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-forest-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-lg sm:text-xl font-bold">
                 3
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
                 Get It Done
               </h3>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 Relax while your handyman completes the job professionally
               </p>
             </div>
@@ -224,25 +224,27 @@ export function LandingPage() {
       </section>
 
       {/* Services Grid */}
-      <section className="py-20">
+      <section className="py-12 sm:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
               Popular Services
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-lg sm:text-xl text-gray-600">
               Find experts for all your home maintenance needs
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
             {services.map(service => (
               <div
                 key={service}
-                className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 text-center border hover:border-forest-200 cursor-pointer"
+                className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-4 sm:p-6 text-center border hover:border-forest-200 cursor-pointer"
               >
-                <Wrench className="h-8 w-8 text-forest-600 mx-auto mb-3" />
-                <h3 className="font-medium text-gray-900">{service}</h3>
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-forest-100 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
+                  <span className="text-forest-600 text-lg sm:text-xl">🔧</span>
+                </div>
+                <h3 className="font-medium text-gray-900 text-sm sm:text-base">{service}</h3>
               </div>
             ))}
           </div>
@@ -250,20 +252,20 @@ export function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-forest-600 text-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-forest-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">
             Ready to Get Started?
           </h2>
-          <p className="text-xl text-forest-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-forest-100 mb-6 sm:mb-8 max-w-2xl mx-auto">
             Join thousands of satisfied customers who trust HandyNaija for their home service needs
           </p>
           
           {!user && (
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <Link
                 to="/auth/register"
-                className="bg-white text-forest-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center"
+                className="bg-white text-forest-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center"
               >
                 Get Started Today
                 <ArrowRight className="ml-2 h-5 w-5" />

@@ -31,17 +31,17 @@ export function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="flex justify-center">
             <img 
               src="/Logo-removebg-preview (1).png" 
               alt="HandyNaija" 
-              className="h-40 w-40"
+              className="h-24 w-24 sm:h-32 sm:w-32 lg:h-40 lg:w-40"
             />
           </div>
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-4 sm:mt-6 text-2xl sm:text-3xl font-extrabold text-gray-900">
             Sign in to HandyNaija
           </h2>
           <p className="mt-2 text-sm text-gray-600">
@@ -56,7 +56,7 @@ export function LoginForm() {
         </div>
 
         {/* Demo Credentials */}
-        <div className="bg-forest-50 border border-forest-200 rounded-md p-4">
+        <div className="bg-forest-50 border border-forest-200 rounded-md p-3 sm:p-4">
           <h3 className="text-sm font-medium text-forest-800">Demo Credentials:</h3>
           <div className="mt-2 text-xs text-forest-700 space-y-1">
             <p><strong>Customer:</strong> customer@test.com / password</p>
@@ -65,7 +65,7 @@ export function LoginForm() {
           </div>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-6 sm:mt-8 space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-md p-3">
               <p className="text-sm text-red-600">{error}</p>
@@ -85,7 +85,7 @@ export function LoginForm() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-forest-500 focus:border-forest-500 focus:z-10 sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2.5 sm:py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-forest-500 focus:border-forest-500 focus:z-10 text-base sm:text-sm"
                 placeholder="Enter your email"
               />
             </div>
@@ -103,7 +103,7 @@ export function LoginForm() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none relative block w-full px-3 py-2 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-forest-500 focus:border-forest-500 focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full px-3 py-2.5 sm:py-2 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-forest-500 focus:border-forest-500 focus:z-10 text-base sm:text-sm"
                   placeholder="Enter your password"
                 />
                 <button
@@ -121,7 +121,7 @@ export function LoginForm() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
             <div className="flex items-center">
               <input
                 id="remember-me"
@@ -147,7 +147,7 @@ export function LoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-forest-500 hover:bg-forest-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-forest-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="group relative w-full flex justify-center py-3 sm:py-2 px-4 border border-transparent text-base sm:text-sm font-medium rounded-md text-white bg-forest-500 hover:bg-forest-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-forest-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? 'Signing in...' : 'Sign in'}
           </button>

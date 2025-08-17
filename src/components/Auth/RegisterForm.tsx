@@ -155,17 +155,17 @@ export function RegisterForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="flex justify-center">
             <img 
               src="/Logo-removebg-preview (1).png" 
               alt="HandyNaija" 
-              className="h-40 w-40"
+              className="h-24 w-24 sm:h-32 sm:w-32 lg:h-40 lg:w-40"
             />
           </div>
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-4 sm:mt-6 text-2xl sm:text-3xl font-extrabold text-gray-900">
             Join HandyNaija
           </h2>
           <p className="mt-2 text-sm text-gray-600">
@@ -188,16 +188,16 @@ export function RegisterForm() {
             <p className="text-sm text-gray-600 mb-4">
               Select all services you can provide (you can choose multiple)
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-48 overflow-y-auto border border-gray-200 rounded-md p-4">
+            <div className="grid grid-cols-1 gap-2 sm:gap-3 max-h-48 overflow-y-auto border border-gray-200 rounded-md p-3 sm:p-4">
               {Object.entries(SERVICE_CATEGORIES).map(([key, value]) => (
-                <label key={key} className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                <label key={key} className="flex items-center space-x-2 sm:space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded text-sm">
                   <input
                     type="checkbox"
                     checked={formData.serviceCategories.includes(key as ServiceCategory)}
                     onChange={() => handleCategoryChange(key as ServiceCategory)}
                     className="h-4 w-4 text-forest-600 focus:ring-forest-500 border-gray-300 rounded"
                   />
-                  <span className="text-sm text-gray-700">{value}</span>
+                  <span className="text-gray-700">{value}</span>
                 </label>
               ))}
             </div>
@@ -237,7 +237,7 @@ export function RegisterForm() {
             </p>
             
             {!profilePicture.preview ? (
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 text-center hover:border-gray-400 transition-colors">
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/gif"
@@ -249,7 +249,7 @@ export function RegisterForm() {
                   htmlFor="profile-picture-upload"
                   className="cursor-pointer flex flex-col items-center"
                 >
-                  <Camera className="h-12 w-12 text-gray-400 mb-4" />
+                  <Camera className="h-8 w-8 sm:h-12 sm:w-12 text-gray-400 mb-2 sm:mb-4" />
                   <span className="text-sm font-medium text-gray-900">Upload a photo</span>
                   <span className="text-sm text-gray-500 mt-1">PNG, JPG, GIF up to 5MB</span>
                 </label>
@@ -259,7 +259,7 @@ export function RegisterForm() {
                 <img
                   src={profilePicture.preview}
                   alt="Profile preview"
-                  className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
+                  className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-white shadow-lg"
                 />
                 <button
                   type="button"
@@ -292,7 +292,7 @@ export function RegisterForm() {
           </div>
         )}
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-6 sm:mt-8 space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-md p-3">
               <p className="text-sm text-red-600">{error}</p>
@@ -304,11 +304,11 @@ export function RegisterForm() {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               I want to:
             </label>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <button
                 type="button"
                 onClick={() => setFormData(prev => ({ ...prev, userType: 'customer' }))}
-                className={`p-3 border rounded-md text-sm font-medium transition-colors ${
+                className={`p-3 border rounded-md text-sm font-medium transition-colors text-center ${
                   formData.userType === 'customer'
                     ? 'border-forest-500 bg-forest-50 text-forest-700'
                     : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
@@ -319,7 +319,7 @@ export function RegisterForm() {
               <button
                 type="button"
                 onClick={() => setFormData(prev => ({ ...prev, userType: 'handyman' }))}
-                className={`p-3 border rounded-md text-sm font-medium transition-colors ${
+                className={`p-3 border rounded-md text-sm font-medium transition-colors text-center ${
                   formData.userType === 'handyman'
                     ? 'border-forest-500 bg-forest-50 text-forest-700'
                     : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
@@ -330,7 +330,7 @@ export function RegisterForm() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
                 First Name
@@ -342,7 +342,7 @@ export function RegisterForm() {
                 required
                 value={formData.firstName}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 text-base sm:text-sm"
               />
             </div>
 
@@ -357,7 +357,7 @@ export function RegisterForm() {
                 required
                 value={formData.lastName}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 text-base sm:text-sm"
               />
             </div>
           </div>
@@ -373,7 +373,7 @@ export function RegisterForm() {
               required
               value={formData.email}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 text-base sm:text-sm"
             />
           </div>
 
@@ -389,11 +389,11 @@ export function RegisterForm() {
               value={formData.phone}
               onChange={handleChange}
               placeholder="+2348012345678"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 text-base sm:text-sm"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label htmlFor="state" className="block text-sm font-medium text-gray-700">
                 State
@@ -404,7 +404,7 @@ export function RegisterForm() {
                 required
                 value={formData.state}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 text-base sm:text-sm"
               >
                 <option value="">Select State</option>
                 {NIGERIAN_STATES.map(state => (
@@ -424,7 +424,7 @@ export function RegisterForm() {
                 required
                 value={formData.lga}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 text-base sm:text-sm"
               />
             </div>
           </div>
@@ -439,7 +439,7 @@ export function RegisterForm() {
               type="text"
               value={formData.address}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 text-base sm:text-sm"
             />
           </div>
 
@@ -455,7 +455,7 @@ export function RegisterForm() {
                 required
                 value={formData.password}
                 onChange={handleChange}
-                className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 sm:text-sm"
+                className="block w-full px-3 py-2.5 sm:py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 text-base sm:text-sm"
               />
               <button
                 type="button"
@@ -482,7 +482,7 @@ export function RegisterForm() {
               required
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-forest-500 focus:border-forest-500 text-base sm:text-sm"
             />
           </div>
 
@@ -510,7 +510,7 @@ export function RegisterForm() {
           <button
             type="submit"
             disabled={loading}
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-forest-500 hover:bg-forest-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-forest-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="group relative w-full flex justify-center py-3 sm:py-2 px-4 border border-transparent text-base sm:text-sm font-medium rounded-md text-white bg-forest-500 hover:bg-forest-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-forest-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? (
               <div className="flex items-center">

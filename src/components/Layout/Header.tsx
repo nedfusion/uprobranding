@@ -8,12 +8,13 @@ import {
   Settings, 
   LogOut,
   Menu,
-  Wrench
+  X
 } from 'lucide-react';
 
 export function Header() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const handleLogout = () => {
     logout();
@@ -33,18 +34,32 @@ export function Header() {
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <img 
               src="/Logo-removebg-preview (1).png" 
               alt="HandyNaija" 
-              className="h-24 w-24"
+              className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24"
             />
           </Link>
 
-          {/* Navigation */}
-          <div className="flex items-center space-x-4">
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 rounded-md text-gray-600 hover:text-forest-600 hover:bg-forest-50 transition-colors"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-4">
             {user ? (
               <>
                 {/* Dashboard Link */}
@@ -134,6 +149,94 @@ export function Header() {
             )}
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden border-t border-gray-200 bg-white">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {user ? (
+                <>
+                  {/* User Info */}
+                  <div className="flex items-center px-3 py-2 border-b border-gray-200 mb-2">
+                    <div className="w-10 h-10 bg-forest-100 rounded-full flex items-center justify-center overflow-hidden mr-3">
+                      {user.profileImage ? (
+                        <img
+                          src={user.profileImage}
+                          alt={user.firstName}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <User className="h-6 w-6 text-forest-600" />
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">{user.firstName} {user.lastName}</p>
+                      <p className="text-sm text-gray-500 capitalize">{user.type}</p>
+                    </div>
+                  </div>
+
+                  {/* Navigation Links */}
+                  <Link
+                    to={getDashboardPath()}
+                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-forest-600 hover:bg-forest-50 rounded-md transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
+                    to="/messages"
+                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-forest-600 hover:bg-forest-50 rounded-md transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Messages
+                  </Link>
+                  {user.type === 'customer' && (
+                    <Link
+                      to="/wallet"
+                      className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-forest-600 hover:bg-forest-50 rounded-md transition-colors"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Wallet
+                    </Link>
+                  )}
+                  <Link
+                    to="/profile"
+                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-forest-600 hover:bg-forest-50 rounded-md transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Profile Settings
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="block w-full text-left px-3 py-2 text-base font-medium text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/auth/login"
+                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-forest-600 hover:bg-forest-50 rounded-md transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/auth/register"
+                    className="block px-3 py-2 text-base font-medium bg-forest-500 text-white hover:bg-forest-600 rounded-md transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Join as Handyman
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
