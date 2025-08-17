@@ -93,35 +93,35 @@ export function Sidebar() {
           </button>
         </div>
 
-      <div className="p-4 border-b">
-        <h3 className="font-semibold text-gray-900 capitalize">
-          {user.type} Panel
-        </h3>
-        <p className="text-sm text-gray-500">{user.firstName} {user.lastName}</p>
+        <div className="p-4 border-b">
+          <h3 className="font-semibold text-gray-900 capitalize">
+            {user.type} Panel
+          </h3>
+          <p className="text-sm text-gray-500">{user.firstName} {user.lastName}</p>
+        </div>
+
+        <nav className="mt-4">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.path;
+
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex items-center px-4 py-3 text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'bg-forest-50 text-forest-700 border-r-2 border-forest-700'
+                    : 'text-gray-700 hover:bg-forest-50 hover:text-forest-600'
+                }`}
+              >
+                <Icon className={`mr-3 h-5 w-5 ${isActive ? 'text-forest-700' : 'text-gray-400'}`} />
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
       </div>
     </>
-
-      <nav className="mt-4">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = location.pathname === item.path;
-
-          return (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`flex items-center px-4 py-3 text-sm font-medium transition-colors ${
-                isActive
-                  ? 'bg-forest-50 text-forest-700 border-r-2 border-forest-700'
-                  : 'text-gray-700 hover:bg-forest-50 hover:text-forest-600'
-              }`}
-            >
-              <Icon className={`mr-3 h-5 w-5 ${isActive ? 'text-forest-700' : 'text-gray-400'}`} />
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
-    </div>
   );
 }
