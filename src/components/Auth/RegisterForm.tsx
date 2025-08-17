@@ -162,7 +162,7 @@ export function RegisterForm() {
             <img 
               src="/Logo-removebg-preview (1).png" 
               alt="HandyNaija" 
-              className="h-32 w-32"
+              className="h-40 w-40"
             />
           </div>
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
