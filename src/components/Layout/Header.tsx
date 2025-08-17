@@ -37,7 +37,11 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <Wrench className="h-8 w-8 text-forest-500" />
-            <span className="text-xl font-bold text-gray-900">HandyNaija</span>
+            <img 
+              src="/Logo-removebg-preview (1).png" 
+              alt="HandyNaija" 
+              className="h-8 w-auto"
+            />
           </Link>
 
           {/* Navigation */}
