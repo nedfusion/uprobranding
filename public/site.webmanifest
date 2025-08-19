@@ -19,5 +19,15 @@
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#228B22",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "categories": ["business", "productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "/Logo-removebg-preview (1).png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
 }

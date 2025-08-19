@@ -19,6 +19,7 @@ import { AdminDashboard } from './pages/Admin/Dashboard';
 import { ServiceSearch } from './pages/ServiceSearch';
 import { Messages } from './pages/Messages';
 import { Wallet } from './pages/Wallet';
+import { PWAInstallButton } from './components/PWAInstallButton';
 
 // Layout wrapper component
 function LayoutWrapper({ children }: { children: React.ReactNode }) {
@@ -40,6 +41,7 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
           </div>
         </main>
       </div>
+      <PWAInstallButton />
     </div>
   );
 }
