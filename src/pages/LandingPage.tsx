@@ -143,10 +143,10 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-12 lg:mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
-              Why Choose HandyNaija?
+              Why Choose UPRO?
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
-              We make it easy to find and book trusted handymen for all your home service needs
+              We make it easy to find and book trusted professionals for all your home service needs
             </p>
           </div>
 
@@ -258,7 +258,7 @@ export function LandingPage() {
             Ready to Get Started?
           </h2>
           <p className="text-lg sm:text-xl text-forest-100 mb-6 sm:mb-8 max-w-2xl mx-auto">
-            Join thousands of satisfied customers who trust HandyNaija for their home service needs
+            Join thousands of satisfied customers who trust UPRO for their home service needs
           </p>
           
           {!user && (

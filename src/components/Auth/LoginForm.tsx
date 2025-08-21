@@ -37,12 +37,12 @@ export function LoginForm() {
           <div className="flex justify-center">
             <img 
               src="/Logo-removebg-preview (1).png" 
-              alt="HandyNaija" 
+              alt="UPRO" 
               className="h-24 w-24 sm:h-32 sm:w-32 lg:h-40 lg:w-40"
             />
           </div>
           <h2 className="mt-4 sm:mt-6 text-2xl sm:text-3xl font-extrabold text-gray-900">
-            Sign in to HandyNaija
+            Sign in to UPRO
           </h2>
           <p className="mt-2 text-sm text-gray-600">
             Or{' '}

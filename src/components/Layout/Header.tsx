@@ -39,7 +39,7 @@ export function Header() {
           <Link to="/" className="flex items-center space-x-2">
             <img 
               src="/Logo-removebg-preview (1).png" 
-              alt="HandyNaija" 
+              alt="UPRO" 
               className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24"
             />
           </Link>

@@ -109,11 +109,11 @@ export function PWAInstallButton() {
             </div>
             
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Install HandyNaija App
+              Install UPRO App
             </h3>
             
             <p className="text-gray-600 text-sm mb-6">
-              Add HandyNaija to your home screen for quick access and a better experience.
+              Add UPRO to your home screen for quick access and a better experience.
             </p>
             
             <div className="space-y-3 text-left">
@@ -177,12 +177,12 @@ export function PWAInstallButton() {
               <div className="w-10 h-10 bg-forest-100 rounded-lg flex items-center justify-center">
                 <img 
                   src="/Logo-removebg-preview (1).png" 
-                  alt="HandyNaija" 
+                  alt="UPRO" 
                   className="w-8 h-8"
                 />
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-gray-900">HandyNaija</h4>
+                <h4 className="text-sm font-semibold text-gray-900">UPRO</h4>
                 <p className="text-xs text-gray-600">Install for better experience</p>
               </div>
             </div>
