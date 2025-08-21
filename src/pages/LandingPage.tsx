@@ -81,7 +81,7 @@ export function LandingPage() {
                     to="/auth/register"
                     className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-white hover:text-forest-900 transition-colors inline-flex items-center justify-center text-center"
                   >
-                    Join as Handyman
+                    Join as Service Provider
                   </Link>
                 </div>
               ) : (
