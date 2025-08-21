@@ -144,7 +144,7 @@ export function Header() {
                   className="bg-forest-500 text-white hover:bg-forest-600 px-4 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   Join as Service Provider
-                  Join as Service Provider
+                </Link>
               </div>
             )}
           </div>
