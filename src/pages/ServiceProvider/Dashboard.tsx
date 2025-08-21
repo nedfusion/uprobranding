@@ -13,7 +13,7 @@ import {
   MessageSquare
 } from 'lucide-react';
 
-export function HandymanDashboard() {
+export function ServiceProviderDashboard() {
   const { user } = useAuth();
 
   // Mock data for demonstration
@@ -103,7 +103,7 @@ export function HandymanDashboard() {
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Link
-          to="/handyman/jobs"
+          to="/service-provider/jobs"
           className="bg-forest-600 text-white p-4 rounded-lg hover:bg-forest-700 transition-colors"
         >
           <Calendar className="h-6 w-6 mb-2" />
@@ -112,7 +112,7 @@ export function HandymanDashboard() {
         </Link>
 
         <Link
-          to="/handyman/profile"
+          to="/service-provider/profile"
           className="bg-forest-500 text-white p-4 rounded-lg hover:bg-forest-600 transition-colors"
         >
           <User className="h-6 w-6 mb-2" />
@@ -121,7 +121,7 @@ export function HandymanDashboard() {
         </Link>
 
         <Link
-          to="/handyman/earnings"
+          to="/service-provider/earnings"
           className="bg-forest-400 text-white p-4 rounded-lg hover:bg-forest-500 transition-colors"
         >
           <DollarSign className="h-6 w-6 mb-2" />
@@ -162,7 +162,7 @@ export function HandymanDashboard() {
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-gray-900">Upcoming Jobs</h2>
             <Link
-              to="/handyman/jobs"
+              to="/service-provider/jobs"
               className="text-forest-600 hover:text-forest-700 text-sm font-medium transition-colors"
             >
               View All

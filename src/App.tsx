@@ -14,7 +14,7 @@ import { RegisterForm } from './components/Auth/RegisterForm';
 // Pages
 import { LandingPage } from './pages/LandingPage';
 import { CustomerDashboard } from './pages/Customer/Dashboard';
-import { HandymanDashboard } from './pages/Handyman/Dashboard';
+import { ServiceProviderDashboard } from './pages/ServiceProvider/Dashboard';
 import { AdminDashboard } from './pages/Admin/Dashboard';
 import { ServiceSearch } from './pages/ServiceSearch';
 import { Messages } from './pages/Messages';
@@ -118,17 +118,17 @@ function AppRoutes() {
 
       {/* Handyman Routes */}
       <Route
-        path="/handyman/dashboard"
+        path="/service-provider/dashboard"
         element={
-          <ProtectedRoute requiredUserType="handyman">
-            <HandymanDashboard />
+          <ProtectedRoute requiredUserType="service_provider">
+            <ServiceProviderDashboard />
           </ProtectedRoute>
         }
       />
       <Route
-        path="/handyman/jobs"
+        path="/service-provider/jobs"
         element={
-          <ProtectedRoute requiredUserType="handyman">
+          <ProtectedRoute requiredUserType="service_provider">
             <div className="text-center py-12">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">My Jobs</h2>
               <p className="text-gray-600">Your job requests and active bookings will appear here.</p>
@@ -137,9 +137,9 @@ function AppRoutes() {
         }
       />
       <Route
-        path="/handyman/profile"
+        path="/service-provider/profile"
         element={
-          <ProtectedRoute requiredUserType="handyman">
+          <ProtectedRoute requiredUserType="service_provider">
             <div className="text-center py-12">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Profile Management</h2>
               <p className="text-gray-600">Update your skills, experience, and portfolio here.</p>
@@ -148,9 +148,9 @@ function AppRoutes() {
         }
       />
       <Route
-        path="/handyman/portfolio"
+        path="/service-provider/portfolio"
         element={
-          <ProtectedRoute requiredUserType="handyman">
+          <ProtectedRoute requiredUserType="service_provider">
             <div className="text-center py-12">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Portfolio</h2>
               <p className="text-gray-600">Showcase your best work to attract more customers.</p>
@@ -159,17 +159,17 @@ function AppRoutes() {
         }
       />
       <Route
-        path="/handyman/earnings"
+        path="/service-provider/earnings"
         element={
-          <ProtectedRoute requiredUserType="handyman">
+          <ProtectedRoute requiredUserType="service_provider">
             <Wallet />
           </ProtectedRoute>
         }
       />
       <Route
-        path="/handyman/reviews"
+        path="/service-provider/reviews"
         element={
-          <ProtectedRoute requiredUserType="handyman">
+          <ProtectedRoute requiredUserType="service_provider">
             <div className="text-center py-12">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Customer Reviews</h2>
               <p className="text-gray-600">Reviews from your customers will appear here.</p>

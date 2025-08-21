@@ -4,8 +4,8 @@ import { User, ServiceCategory } from '../types';
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
-  register: (userData: Partial<User> & { 
-    password: string; 
+  register: (userData: Partial<User> & {
+    password: string;
     serviceCategories?: ServiceCategory[];
     profilePicture?: File | null;
   }) => Promise<void>;
@@ -38,7 +38,7 @@ const mockUsers: (User & { password: string })[] = [
     firstName: 'Ahmed',
     lastName: 'Ibrahim',
     phone: '+2348087654321',
-    type: 'handyman',
+    type: 'service_provider',
     state: 'Lagos',
     lga: 'Surulere',
     address: '456 Surulere, Lagos',
@@ -121,8 +121,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     // Store additional handyman data (in a real app, this would go to a separate handyman_profiles table)
-    if (userData.type === 'handyman' && userData.serviceCategories) {
-      localStorage.setItem(`handyman_profile_${newUser.id}`, JSON.stringify({
+    if (userData.type === 'service_provider' && userData.serviceCategories) {
+      localStorage.setItem(`service_provider_profile_${newUser.id}`, JSON.stringify({
         serviceCategories: userData.serviceCategories,
         skills: userData.serviceCategories, // For backward compatibility
         experience: 0,

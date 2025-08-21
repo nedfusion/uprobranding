@@ -20,7 +20,7 @@ export function CustomerDashboard() {
     {
       id: '1',
       service: 'Plumbing',
-      handymanName: 'Ahmed Ibrahim',
+      serviceProviderName: 'Ahmed Ibrahim',
       date: '2024-01-20',
       status: 'completed',
       rating: 5
@@ -28,7 +28,7 @@ export function CustomerDashboard() {
     {
       id: '2',
       service: 'Electrical Work',
-      handymanName: 'John Okafor',
+      serviceProviderName: 'John Okafor',
       date: '2024-01-22',
       status: 'in_progress',
       rating: null
@@ -36,7 +36,7 @@ export function CustomerDashboard() {
     {
       id: '3',
       service: 'Carpentry',
-      handymanName: 'Samuel Adebayo',
+      serviceProviderName: 'Samuel Adebayo',
       date: '2024-01-25',
       status: 'pending',
       rating: null
@@ -90,7 +90,7 @@ export function CustomerDashboard() {
         >
           <Search className="h-8 w-8 mb-3" />
           <h3 className="text-lg font-semibold mb-2">Find Services</h3>
-          <p className="text-forest-100">Browse handymen in your area</p>
+          <p className="text-forest-100">Browse service providers in your area</p>
         </Link>
 
         <Link
@@ -108,7 +108,7 @@ export function CustomerDashboard() {
         >
           <Plus className="h-8 w-8 mb-3" />
           <h3 className="text-lg font-semibold mb-2">Messages</h3>
-          <p className="text-forest-100">Chat with your handymen</p>
+          <p className="text-forest-100">Chat with your service providers</p>
         </Link>
       </div>
 
@@ -157,7 +157,7 @@ export function CustomerDashboard() {
                   </div>
                   
                   <p className="text-sm text-gray-600 mt-1">
-                    with {booking.handymanName}
+                    with {booking.serviceProviderName}
                   </p>
                   
                   <div className="flex items-center text-sm text-gray-500 mt-2">

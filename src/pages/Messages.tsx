@@ -22,7 +22,7 @@ export function Messages() {
       id: '1',
       participant: {
         name: 'Ahmed Ibrahim',
-        type: 'handyman',
+        type: 'service_provider',
         profileImage: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=1',
         online: true
       },
@@ -54,7 +54,7 @@ export function Messages() {
       id: '3',
       participant: {
         name: 'John Okafor',
-        type: 'handyman',
+        type: 'service_provider',
         profileImage: 'https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=1',
         online: true
       },
@@ -216,11 +216,11 @@ export function Messages() {
 
                   <div className="flex items-center mt-1">
                     <span className={`text-xs px-1.5 sm:px-2 py-0.5 rounded-full ${
-                      conversation.participant.type === 'handyman' 
+                      conversation.participant.type === 'service_provider' 
                         ? 'bg-forest-100 text-forest-800' 
                         : 'bg-forest-50 text-forest-700'
                     }`}>
-                      {conversation.participant.type === 'handyman' ? 'Handyman' : 'Customer'}
+                      {conversation.participant.type === 'service_provider' ? 'Service Provider' : 'Customer'}
                     </span>
                   </div>
                 </div>

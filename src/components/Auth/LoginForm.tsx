@@ -60,7 +60,7 @@ export function LoginForm() {
           <h3 className="text-sm font-medium text-forest-800">Demo Credentials:</h3>
           <div className="mt-2 text-xs text-forest-700 space-y-1">
             <p><strong>Customer:</strong> customer@test.com / password</p>
-            <p><strong>Handyman:</strong> handyman@test.com / password</p>
+            <p><strong>Service Provider:</strong> handyman@test.com / password</p>
             <p><strong>Admin:</strong> admin@test.com / password</p>
           </div>
         </div>

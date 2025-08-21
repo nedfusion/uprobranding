@@ -25,7 +25,7 @@ export function Header() {
     if (!user) return '/';
     switch (user.type) {
       case 'customer': return '/customer/dashboard';
-      case 'handyman': return '/handyman/dashboard';
+      case 'service_provider': return '/service-provider/dashboard';
       case 'admin': return '/admin/dashboard';
       default: return '/';
     }
@@ -143,8 +143,8 @@ export function Header() {
                   to="/auth/register"
                   className="bg-forest-500 text-white hover:bg-forest-600 px-4 py-2 rounded-md text-sm font-medium transition-colors"
                 >
-                  Join as Handyman
-                </Link>
+                  Join as Service Provider
+                  Join as Service Provider
               </div>
             )}
           </div>

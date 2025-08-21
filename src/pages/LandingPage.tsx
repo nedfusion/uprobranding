@@ -46,7 +46,7 @@ export function LandingPage() {
   ];
 
   const stats = [
-    { number: '10,000+', label: 'Verified Handymen' },
+    { number: '10,000+', label: 'Verified Service Providers' },
     { number: '50,000+', label: 'Happy Customers' },
     { number: '37', label: 'States Covered' },
     { number: '4.8/5', label: 'Average Rating' }
@@ -61,7 +61,7 @@ export function LandingPage() {
             <div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
                 Find Trusted
-                <span className="block text-white">Handymen</span>
+                <span className="block text-white">Service Providers</span>
                 Near You
               </h1>
               <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-forest-100">
@@ -192,7 +192,7 @@ export function LandingPage() {
                 Search & Compare
               </h3>
               <p className="text-sm sm:text-base text-gray-600">
-                Browse handymen in your area, compare ratings, and read reviews
+                Browse service providers in your area, compare ratings, and read reviews
               </p>
             </div>
 
@@ -204,7 +204,7 @@ export function LandingPage() {
                 Book & Schedule
               </h3>
               <p className="text-sm sm:text-base text-gray-600">
-                Choose your preferred handyman and schedule a convenient time
+                Choose your preferred service provider and schedule a convenient time
               </p>
             </div>
 
@@ -216,7 +216,7 @@ export function LandingPage() {
                 Get It Done
               </h3>
               <p className="text-sm sm:text-base text-gray-600">
-                Relax while your handyman completes the job professionally
+                Relax while your service provider completes the job professionally
               </p>
             </div>
           </div>
@@ -267,7 +267,7 @@ export function LandingPage() {
                 to="/auth/register"
                 className="bg-white text-forest-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center"
               >
-                Get Started Today
+                Join as Service Provider
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </div>

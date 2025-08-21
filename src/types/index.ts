@@ -14,7 +14,7 @@ export interface User {
 }
 
 export interface HandymanProfile extends User {
-  type: 'handyman';
+  type: 'service_provider';
   skills: string[];
   serviceCategories: ServiceCategory[];
   experience: number;
@@ -63,7 +63,7 @@ export interface Service {
   isActive: boolean;
 }
 
-export type ServiceCategory = 
+export type ServiceCategory =
   | 'plumbing' 
   | 'electrical' 
   | 'carpentry' 
@@ -168,7 +168,7 @@ export interface Wallet {
 
 export interface AdminStats {
   totalUsers: number;
-  totalHandymen: number;
+  totalServiceProviders: number;
   totalCustomers: number;
   totalBookings: number;
   completedBookings: number;
@@ -188,7 +188,7 @@ export const NIGERIAN_STATES = [
 export const SERVICE_CATEGORIES = {
   plumbing: 'Plumbing',
   electrical: 'Electrical',
-  carpentry: 'Carpentry', 
+  carpentry: 'Carpentry',
   painting: 'Painting',
   hvac: 'HVAC (Heating & Cooling)',
   appliance_repair: 'Appliance Repair',

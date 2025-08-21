@@ -37,15 +37,15 @@ export function Sidebar() {
           { icon: Settings, label: 'Settings', path: '/profile' }
         ];
 
-      case 'handyman':
+      case 'service_provider':
         return [
-          { icon: Home, label: 'Dashboard', path: '/handyman/dashboard' },
-          { icon: Calendar, label: 'My Jobs', path: '/handyman/jobs' },
-          { icon: User, label: 'Profile', path: '/handyman/profile' },
-          { icon: BookOpen, label: 'Portfolio', path: '/handyman/portfolio' },
+          { icon: Home, label: 'Dashboard', path: '/service-provider/dashboard' },
+          { icon: Calendar, label: 'My Jobs', path: '/service-provider/jobs' },
+          { icon: User, label: 'Profile', path: '/service-provider/profile' },
+          { icon: BookOpen, label: 'Portfolio', path: '/service-provider/portfolio' },
           { icon: MessageSquare, label: 'Messages', path: '/messages' },
-          { icon: Wallet, label: 'Earnings', path: '/handyman/earnings' },
-          { icon: Star, label: 'Reviews', path: '/handyman/reviews' },
+          { icon: Wallet, label: 'Earnings', path: '/service-provider/earnings' },
+          { icon: Star, label: 'Reviews', path: '/service-provider/reviews' },
           { icon: Settings, label: 'Settings', path: '/profile' }
         ];
 

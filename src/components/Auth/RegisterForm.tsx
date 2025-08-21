@@ -19,7 +19,7 @@ export function RegisterForm() {
     phone: '',
     password: '',
     confirmPassword: '',
-    userType: 'customer' as 'customer' | 'handyman',
+    userType: 'customer' as 'customer' | 'service_provider',
     state: '',
     lga: '',
     address: '',
@@ -119,7 +119,7 @@ export function RegisterForm() {
       return;
     }
 
-    if (formData.userType === 'handyman' && formData.serviceCategories.length === 0) {
+    if (formData.userType === 'service_provider' && formData.serviceCategories.length === 0) {
       setError('Please select at least one service category');
       return;
     }
@@ -180,7 +180,7 @@ export function RegisterForm() {
         </div>
 
         {/* Service Categories (only for handymen) */}
-        {formData.userType === 'handyman' && (
+        {formData.userType === 'service_provider' && (
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-3">
               Service Categories *
@@ -227,7 +227,7 @@ export function RegisterForm() {
         )}
 
         {/* Profile Picture Upload (only for handymen) */}
-        {formData.userType === 'handyman' && (
+        {formData.userType === 'service_provider' && (
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-3">
               Profile Picture
@@ -318,9 +318,9 @@ export function RegisterForm() {
               </button>
               <button
                 type="button"
-                onClick={() => setFormData(prev => ({ ...prev, userType: 'handyman' }))}
+                onClick={() => setFormData(prev => ({ ...prev, userType: 'service_provider' }))}
                 className={`p-3 border rounded-md text-sm font-medium transition-colors text-center ${
-                  formData.userType === 'handyman'
+                  formData.userType === 'service_provider'
                     ? 'border-forest-500 bg-forest-50 text-forest-700'
                     : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                 }`}
@@ -502,7 +502,7 @@ export function RegisterForm() {
               </Link>{' '}
               and{' '}
               <Link to="/privacy" className="text-forest-600 hover:text-forest-500 transition-colors">
-                Privacy Policy
+                Join as Service Provider
               </Link>
             </label>
           </div>

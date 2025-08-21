@@ -49,7 +49,7 @@ export function AdminDashboard() {
     {
       id: '1',
       customer: 'Sarah Johnson',
-      handyman: 'Ahmed Ibrahim',
+      serviceProvider: 'Ahmed Ibrahim',
       service: 'Plumbing',
       date: '2024-01-23',
       amount: 15000,
@@ -58,7 +58,7 @@ export function AdminDashboard() {
     {
       id: '2',
       customer: 'David Okoro',
-      handyman: 'John Okafor',
+      serviceProvider: 'John Okafor',
       service: 'Electrical',
       date: '2024-01-23',
       amount: 12000,
@@ -67,7 +67,7 @@ export function AdminDashboard() {
     {
       id: '3',
       customer: 'Mary Adebayo',
-      handyman: 'Samuel Adebayo',
+      serviceProvider: 'Samuel Adebayo',
       service: 'Carpentry',
       date: '2024-01-22',
       amount: 25000,
@@ -80,7 +80,7 @@ export function AdminDashboard() {
       id: '1',
       booking: 'BK-001',
       customer: 'John Doe',
-      handyman: 'Ahmed Ali',
+      serviceProvider: 'Ahmed Ali',
       issue: 'Payment dispute',
       status: 'open',
       date: '2024-01-22'
@@ -89,7 +89,7 @@ export function AdminDashboard() {
       id: '2',
       booking: 'BK-002',
       customer: 'Jane Smith',
-      handyman: 'David Ogun',
+      serviceProvider: 'David Ogun',
       issue: 'Quality complaint',
       status: 'investigating',
       date: '2024-01-21'
@@ -217,7 +217,7 @@ export function AdminDashboard() {
                 
                 <div className="text-sm text-gray-600 space-y-1">
                   <p>Customer: {booking.customer}</p>
-                  <p>Handyman: {booking.handyman}</p>
+                  <p>Service Provider: {booking.serviceProvider}</p>
                   <p>Amount: ₦{booking.amount.toLocaleString()}</p>
                 </div>
                 
@@ -256,7 +256,7 @@ export function AdminDashboard() {
                 <div className="text-sm text-gray-600 space-y-1">
                   <p>Booking: {dispute.booking}</p>
                   <p>Customer: {dispute.customer}</p>
-                  <p>Handyman: {dispute.handyman}</p>
+                  <p>Service Provider: {dispute.serviceProvider}</p>
                 </div>
                 
                 <div className="text-xs text-gray-500 mt-2">

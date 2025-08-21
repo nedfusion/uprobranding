@@ -12,6 +12,7 @@ import {
   Award
 } from 'lucide-react';
 import { SERVICE_CATEGORIES, NIGERIAN_STATES } from '../types';
+import { ServiceProviderCard } from '../components/ServiceProviderCard';
 
 export function ServiceSearch() {
   const [searchQuery, setSearchQuery] = useState('');
