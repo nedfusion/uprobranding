@@ -10,23 +10,54 @@ import {
   MapPin,
   CheckCircle,
   ArrowRight,
-  Wrench
+  Wrench,
+  Droplet,
+  Zap,
+  Hammer,
+  PaintBucket,
+  Wind,
+  Refrigerator,
+  Settings,
+  Trees,
+  Home,
+  Layers,
+  Grid3x3,
+  Sparkles,
+  Power,
+  ShieldCheck,
+  Boxes,
+  Flame,
+  Bug
 } from 'lucide-react';
 
 export function LandingPage() {
   const { user } = useAuth();
 
   const services = [
-    'Plumbing', 'Electrical Work', 'Carpentry', 'Painting',
-    'HVAC', 'Appliance Repair', 'General Maintenance', 'Landscaping',
-    'Tiling', 'Cleaning', 'Generator Repair', 'Roofing'
+    { name: 'Plumbing', icon: Droplet },
+    { name: 'Electrical', icon: Zap },
+    { name: 'Carpentry', icon: Hammer },
+    { name: 'Painting', icon: PaintBucket },
+    { name: 'HVAC', icon: Wind },
+    { name: 'Appliance Repair', icon: Refrigerator },
+    { name: 'General Maintenance', icon: Settings },
+    { name: 'Landscaping', icon: Trees },
+    { name: 'Roofing', icon: Home },
+    { name: 'Flooring', icon: Layers },
+    { name: 'Tiling', icon: Grid3x3 },
+    { name: 'Cleaning', icon: Sparkles },
+    { name: 'Generator Repair', icon: Power },
+    { name: 'Security Systems', icon: ShieldCheck },
+    { name: 'Masonry', icon: Boxes },
+    { name: 'Welding', icon: Flame },
+    { name: 'Pest Control', icon: Bug }
   ];
 
   const features = [
     {
       icon: Shield,
       title: 'Verified Professionals',
-      description: 'All handymen are verified and background-checked for your safety'
+      description: 'All service providers are verified and background-checked for your safety'
     },
     {
       icon: Star,
@@ -65,7 +96,7 @@ export function LandingPage() {
                 Near You
               </h1>
               <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-forest-100">
-                Connect with skilled professionals for all your home repair and maintenance needs across Nigeria.
+                Connect with skilled professionals for all your service related needs across Nigeria.
               </p>
               
               {!user ? (
@@ -96,7 +127,7 @@ export function LandingPage() {
             </div>
 
             <div className="relative">
-              <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-xl">
+              <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-xl relative overflow-hidden">
                 <div className="flex items-center mb-4">
                   <Search className="h-5 w-5 text-gray-400 mr-3" />
                   <input
@@ -107,14 +138,39 @@ export function LandingPage() {
                   />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {services.slice(0, 6).map(service => (
-                    <button
-                      key={service}
-                      className="text-left text-gray-700 hover:text-blue-600 py-2 px-3 rounded hover:bg-blue-50 transition-colors text-xs sm:text-sm"
-                    >
-                      {service}
-                    </button>
-                  ))}
+                  {services.slice(0, 6).map(service => {
+                    const ServiceIcon = service.icon;
+                    return (
+                      <button
+                        key={service.name}
+                        className="text-left text-gray-700 hover:text-blue-600 py-2 px-3 rounded hover:bg-blue-50 transition-colors text-xs sm:text-sm flex items-center gap-2"
+                      >
+                        <ServiceIcon className="h-4 w-4" />
+                        {service.name}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Floating Service Icons */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-10">
+                  {services.slice(0, 8).map((service, index) => {
+                    const ServiceIcon = service.icon;
+                    return (
+                      <div
+                        key={service.name}
+                        className="absolute animate-float"
+                        style={{
+                          top: `${Math.random() * 80}%`,
+                          left: `${Math.random() * 80}%`,
+                          animationDelay: `${index * 0.5}s`,
+                          animationDuration: `${3 + Math.random() * 2}s`
+                        }}
+                      >
+                        <ServiceIcon className="h-8 w-8 text-forest-600" />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -146,7 +202,7 @@ export function LandingPage() {
               Why Choose UPRO?
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
-              We make it easy to find and book trusted professionals for all your home service needs
+              We make it easy to find and book trusted professionals for all your service related needs
             </p>
           </div>
 
@@ -179,7 +235,7 @@ export function LandingPage() {
               How It Works
             </h2>
             <p className="text-lg sm:text-xl text-gray-600">
-              Get your home services done in just three simple steps
+              Get your service related needs done in just three simple steps
             </p>
           </div>
 
@@ -231,22 +287,25 @@ export function LandingPage() {
               Popular Services
             </h2>
             <p className="text-lg sm:text-xl text-gray-600">
-              Find experts for all your home maintenance needs
+              Find experts for all your service related needs
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
-            {services.map(service => (
-              <div
-                key={service}
-                className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-4 sm:p-6 text-center border hover:border-forest-200 cursor-pointer"
-              >
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-forest-100 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
-                  <span className="text-forest-600 text-lg sm:text-xl">🔧</span>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+            {services.map(service => {
+              const ServiceIcon = service.icon;
+              return (
+                <div
+                  key={service.name}
+                  className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all p-4 sm:p-6 text-center border hover:border-forest-200 cursor-pointer group hover:-translate-y-1 duration-300"
+                >
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-forest-100 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 group-hover:bg-forest-600 transition-colors">
+                    <ServiceIcon className="h-6 w-6 sm:h-7 sm:w-7 text-forest-600 group-hover:text-white transition-colors" />
+                  </div>
+                  <h3 className="font-medium text-gray-900 text-sm sm:text-base">{service.name}</h3>
                 </div>
-                <h3 className="font-medium text-gray-900 text-sm sm:text-base">{service}</h3>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -258,7 +317,7 @@ export function LandingPage() {
             Ready to Get Started?
           </h2>
           <p className="text-lg sm:text-xl text-forest-100 mb-6 sm:mb-8 max-w-2xl mx-auto">
-            Join thousands of satisfied customers who trust UPRO for their home service needs
+            Join thousands of satisfied customers who trust UPRO for their service related needs
           </p>
           
           {!user && (

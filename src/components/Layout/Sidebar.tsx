@@ -85,7 +85,6 @@ export function Sidebar() {
         {/* Mobile Close Button */}
         <div className="lg:hidden flex justify-end p-4">
           <button
-                onClick={() => setIsMobileOpen(false)}
             onClick={() => setIsMobileOpen(false)}
             className="p-2 rounded-md text-gray-600 hover:text-gray-800 hover:bg-gray-100"
           >

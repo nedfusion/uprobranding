@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { 
-  User, 
-  Bell, 
-  MessageSquare, 
-  Settings, 
+import {
+  User,
+  Bell,
+  MessageSquare,
+  Settings,
   LogOut,
   Menu,
-  X
+  X,
+  LogIn
 } from 'lucide-react';
 
 export function Header() {
@@ -135,15 +136,16 @@ export function Header() {
               <div className="flex items-center space-x-4">
                 <Link
                   to="/auth/login"
-                  className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-700 hover:text-forest-600 px-3 py-2 rounded-md text-sm font-medium inline-flex items-center gap-2 transition-colors"
                 >
+                  <LogIn className="h-4 w-4" />
                   Login
                 </Link>
                 <Link
                   to="/auth/register"
                   className="bg-forest-500 text-white hover:bg-forest-600 px-4 py-2 rounded-md text-sm font-medium transition-colors"
                 >
-                  Join as Service Providers
+                  Join as Service Provider
                 </Link>
               </div>
             )}
@@ -220,9 +222,10 @@ export function Header() {
                 <>
                   <Link
                     to="/auth/login"
-                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-forest-600 hover:bg-forest-50 rounded-md transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 text-base font-medium text-gray-700 hover:text-forest-600 hover:bg-forest-50 rounded-md transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
+                    <LogIn className="h-5 w-5" />
                     Login
                   </Link>
                   <Link
@@ -230,7 +233,7 @@ export function Header() {
                     className="block px-3 py-2 text-base font-medium bg-forest-500 text-white hover:bg-forest-600 rounded-md transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Join as Handyman
+                    Join as Service Provider
                   </Link>
                 </>
               )}
