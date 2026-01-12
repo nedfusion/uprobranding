@@ -86,8 +86,27 @@ export function LandingPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-forest-600 via-forest-700 to-forest-800 text-white py-12 sm:py-16 lg:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-gradient-to-br from-forest-600 via-forest-700 to-forest-800 text-white py-12 sm:py-16 lg:py-20 overflow-hidden">
+        {/* Video Background */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute min-w-full min-h-full object-cover opacity-30"
+            poster="https://images.pexels.com/photos/5691607/pexels-photo-5691607.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          >
+            <source
+              src="https://videos.pexels.com/video-files/5692010/5692010-uhd_2560_1440_25fps.mp4"
+              type="video/mp4"
+            />
+          </video>
+          {/* Overlay for better text readability */}
+          <div className="absolute inset-0 bg-gradient-to-br from-forest-600/90 via-forest-700/90 to-forest-800/90"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
