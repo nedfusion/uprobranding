@@ -19,6 +19,7 @@ import { AdminDashboard } from './pages/Admin/Dashboard';
 import { ServiceSearch } from './pages/ServiceSearch';
 import { Messages } from './pages/Messages';
 import { Wallet } from './pages/Wallet';
+import { AboutUs } from './pages/AboutUs';
 import { PWAInstallButton } from './components/PWAInstallButton';
 import CustomerSupport from './pages/Admin/CustomerSupport';
 import CustomerChatbox from './components/CustomerChatbox';
@@ -56,6 +57,7 @@ function AppRoutes() {
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<LandingPage />} />
+      <Route path="/about" element={<AboutUs />} />
       <Route path="/auth/login" element={<LoginForm />} />
       <Route path="/auth/register" element={<RegisterForm />} />
       <Route path="/search" element={<ServiceSearch />} />

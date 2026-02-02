@@ -71,6 +71,14 @@ export function Header() {
                   Dashboard
                 </Link>
 
+                {/* About Link */}
+                <Link
+                  to="/about"
+                  className="text-gray-700 hover:text-forest-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  About
+                </Link>
+
                 {/* Messages */}
                 <Link
                   to="/messages"
@@ -135,6 +143,12 @@ export function Header() {
             ) : (
               <div className="flex items-center space-x-4">
                 <Link
+                  to="/about"
+                  className="text-gray-700 hover:text-forest-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  About
+                </Link>
+                <Link
                   to="/auth/login"
                   className="text-gray-700 hover:text-forest-600 px-3 py-2 rounded-md text-sm font-medium inline-flex items-center gap-2 transition-colors"
                 >
@@ -186,6 +200,13 @@ export function Header() {
                     Dashboard
                   </Link>
                   <Link
+                    to="/about"
+                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-forest-600 hover:bg-forest-50 rounded-md transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    About
+                  </Link>
+                  <Link
                     to="/messages"
                     className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-forest-600 hover:bg-forest-50 rounded-md transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -220,6 +241,13 @@ export function Header() {
                 </>
               ) : (
                 <>
+                  <Link
+                    to="/about"
+                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-forest-600 hover:bg-forest-50 rounded-md transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    About
+                  </Link>
                   <Link
                     to="/auth/login"
                     className="flex items-center gap-2 px-3 py-2 text-base font-medium text-gray-700 hover:text-forest-600 hover:bg-forest-50 rounded-md transition-colors"
