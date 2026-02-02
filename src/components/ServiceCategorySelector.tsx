@@ -25,19 +25,19 @@ export function ServiceCategorySelector({
       </p>
       
       {/* Category Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-48 overflow-y-auto border border-gray-200 rounded-md p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-96 overflow-y-auto border border-gray-200 rounded-md p-4 bg-gray-50">
         {Object.entries(SERVICE_CATEGORIES).map(([key, value]) => (
-          <label 
-            key={key} 
-            className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+          <label
+            key={key}
+            className="flex items-center space-x-2 cursor-pointer hover:bg-white p-2 rounded transition-colors"
           >
             <input
               type="checkbox"
               checked={selectedCategories.includes(key as ServiceCategory)}
               onChange={() => onCategoryChange(key as ServiceCategory)}
-              className="h-4 w-4 text-forest-600 focus:ring-forest-500 border-gray-300 rounded"
+              className="h-4 w-4 text-forest-600 focus:ring-forest-500 border-gray-300 rounded flex-shrink-0"
             />
-            <span className="text-sm text-gray-700 select-none">{value}</span>
+            <span className="text-sm text-gray-700 select-none leading-tight">{value}</span>
           </label>
         ))}
       </div>
