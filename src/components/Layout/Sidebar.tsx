@@ -54,6 +54,7 @@ export function Sidebar() {
           { icon: Home, label: 'Dashboard', path: '/admin/dashboard' },
           { icon: Users, label: 'Users', path: '/admin/users' },
           { icon: Calendar, label: 'Bookings', path: '/admin/bookings' },
+          { icon: MessageSquare, label: 'Customer Support', path: '/admin/support' },
           { icon: BarChart3, label: 'Analytics', path: '/admin/analytics' },
           { icon: Wallet, label: 'Payments', path: '/admin/payments' },
           { icon: Shield, label: 'Disputes', path: '/admin/disputes' },

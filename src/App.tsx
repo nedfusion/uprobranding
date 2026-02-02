@@ -20,6 +20,8 @@ import { ServiceSearch } from './pages/ServiceSearch';
 import { Messages } from './pages/Messages';
 import { Wallet } from './pages/Wallet';
 import { PWAInstallButton } from './components/PWAInstallButton';
+import CustomerSupport from './pages/Admin/CustomerSupport';
+import CustomerChatbox from './components/CustomerChatbox';
 
 // Layout wrapper component
 function LayoutWrapper({ children }: { children: React.ReactNode }) {
@@ -42,6 +44,7 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
         </main>
       </div>
       <PWAInstallButton />
+      {user && user.type === 'customer' && <CustomerChatbox />}
     </div>
   );
 }
@@ -239,6 +242,14 @@ function AppRoutes() {
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Dispute Resolution</h2>
               <p className="text-gray-600">Handle customer complaints and disputes between users.</p>
             </div>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/support"
+        element={
+          <ProtectedRoute requiredUserType="admin">
+            <CustomerSupport />
           </ProtectedRoute>
         }
       />
