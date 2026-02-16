@@ -55,16 +55,6 @@ export function LoginForm() {
           </p>
         </div>
 
-        {/* Demo Credentials */}
-        <div className="bg-forest-50 border border-forest-200 rounded-md p-3 sm:p-4">
-          <h3 className="text-sm font-medium text-forest-800">Demo Credentials:</h3>
-          <div className="mt-2 text-xs text-forest-700 space-y-1">
-            <p><strong>Customer:</strong> customer@test.com / password</p>
-            <p><strong>Service Provider:</strong> handyman@test.com / password</p>
-            <p><strong>Admin:</strong> admin@test.com / password</p>
-          </div>
-        </div>
-
         <form className="mt-6 sm:mt-8 space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-md p-3">

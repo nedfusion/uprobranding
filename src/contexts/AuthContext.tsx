@@ -106,8 +106,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     serviceCategories?: ServiceCategory[];
     profilePicture?: File | null;
   }) => {
-    setLoading(true);
-
     try {
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: userData.email!,
@@ -148,7 +146,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           is_verified: false
         });
 
-      if (profileError) throw profileError;
+      if (profileError) {
+        console.error('Profile creation error:', profileError);
+        throw new Error(`Failed to create profile: ${profileError.message}`);
+      }
 
       if (userData.type === 'service_provider' && userData.serviceCategories) {
         const { error: providerError } = await supabase
@@ -162,14 +163,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             total_jobs: 0
           });
 
-        if (providerError) throw providerError;
+        if (providerError) {
+          console.error('Provider profile creation error:', providerError);
+          throw new Error(`Failed to create provider profile: ${providerError.message}`);
+        }
       }
 
       await loadUserProfile(authData.user.id);
     } catch (error: any) {
+      console.error('Registration error:', error);
       throw new Error(error.message || 'Registration failed');
-    } finally {
-      setLoading(false);
     }
   };
 
