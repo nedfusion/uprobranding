@@ -33,6 +33,18 @@ import {
 export function LandingPage() {
   const { user } = useAuth();
 
+  const getDashboardPath = () => {
+    if (!user) return '/';
+    switch (user.type) {
+      case 'customer': return '/customer/dashboard';
+      case 'service_provider': return '/service-provider/dashboard';
+      case 'admin':
+      case 'super_admin':
+        return '/admin/dashboard';
+      default: return '/';
+    }
+  };
+
   const services = [
     { name: 'Plumbing', icon: Droplet },
     { name: 'Electrical', icon: Zap },
@@ -136,7 +148,7 @@ export function LandingPage() {
                 </div>
               ) : (
                 <Link
-                  to={`/${user.type}/dashboard`}
+                  to={getDashboardPath()}
                   className="bg-white text-forest-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center text-center"
                 >
                   Go to Dashboard
