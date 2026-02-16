@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Users,
@@ -11,96 +11,217 @@ import {
   MapPin,
   BarChart3
 } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
+
+interface DashboardStats {
+  totalUsers: number;
+  activeBookings: number;
+  monthlyRevenue: number;
+  platformRating: number;
+}
+
+interface Booking {
+  id: string;
+  customer_name: string;
+  provider_name: string;
+  service_category: string;
+  created_at: string;
+  amount: number;
+  status: string;
+}
+
+interface Dispute {
+  id: string;
+  booking_id: string;
+  customer_name: string;
+  provider_name: string;
+  issue_description: string;
+  status: string;
+  created_at: string;
+}
+
+interface StateStats {
+  state: string;
+  bookings: number;
+  revenue: number;
+}
 
 export function AdminDashboard() {
-  // Mock data for demonstration
-  const stats = [
-    { 
-      label: 'Total Users', 
-      value: '12,485', 
-      change: '+8.2%', 
-      changeType: 'increase',
-      icon: Users 
-    },
-    { 
-      label: 'Active Bookings', 
-      value: '1,247', 
-      change: '+15.3%', 
-      changeType: 'increase',
-      icon: Calendar 
-    },
-    { 
-      label: 'Monthly Revenue', 
-      value: '₦2.4M', 
-      change: '+12.5%', 
-      changeType: 'increase',
-      icon: DollarSign 
-    },
-    { 
-      label: 'Platform Rating', 
-      value: '4.8', 
-      change: '+0.2', 
-      changeType: 'increase',
-      icon: Star 
-    }
-  ];
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<DashboardStats>({
+    totalUsers: 0,
+    activeBookings: 0,
+    monthlyRevenue: 0,
+    platformRating: 0
+  });
+  const [recentBookings, setRecentBookings] = useState<Booking[]>([]);
+  const [disputes, setDisputes] = useState<Dispute[]>([]);
+  const [topStates, setTopStates] = useState<StateStats[]>([]);
 
-  const recentBookings = [
-    {
-      id: '1',
-      customer: 'Sarah Johnson',
-      serviceProvider: 'Ahmed Ibrahim',
-      service: 'Plumbing',
-      date: '2024-01-23',
-      amount: 15000,
-      status: 'completed'
-    },
-    {
-      id: '2',
-      customer: 'David Okoro',
-      serviceProvider: 'John Okafor',
-      service: 'Electrical',
-      date: '2024-01-23',
-      amount: 12000,
-      status: 'in_progress'
-    },
-    {
-      id: '3',
-      customer: 'Mary Adebayo',
-      serviceProvider: 'Samuel Adebayo',
-      service: 'Carpentry',
-      date: '2024-01-22',
-      amount: 25000,
-      status: 'pending'
-    }
-  ];
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
 
-  const disputes = [
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+
+      // Fetch total users
+      const { count: totalUsers } = await supabase
+        .from('users')
+        .select('*', { count: 'exact', head: true });
+
+      // Fetch active bookings
+      const { count: activeBookings } = await supabase
+        .from('bookings')
+        .select('*', { count: 'exact', head: true })
+        .in('status', ['pending', 'accepted', 'in_progress']);
+
+      // Fetch monthly revenue
+      const startOfMonth = new Date();
+      startOfMonth.setDate(1);
+      startOfMonth.setHours(0, 0, 0, 0);
+
+      const { data: transactions } = await supabase
+        .from('transactions')
+        .select('amount')
+        .eq('status', 'completed')
+        .gte('created_at', startOfMonth.toISOString());
+
+      const monthlyRevenue = transactions?.reduce((sum, t) => sum + (t.amount || 0), 0) || 0;
+
+      // Fetch platform rating
+      const { data: reviews } = await supabase
+        .from('reviews')
+        .select('rating');
+
+      const avgRating = reviews && reviews.length > 0
+        ? reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviews.length
+        : 0;
+
+      // Fetch recent bookings
+      const { data: bookingsData } = await supabase
+        .from('bookings')
+        .select(`
+          id,
+          service_category,
+          status,
+          amount,
+          created_at,
+          customer:customer_id(full_name),
+          provider:provider_id(full_name)
+        `)
+        .order('created_at', { ascending: false })
+        .limit(3);
+
+      const formattedBookings = bookingsData?.map(b => ({
+        id: b.id,
+        customer_name: b.customer?.full_name || 'Unknown',
+        provider_name: b.provider?.full_name || 'Unknown',
+        service_category: b.service_category,
+        created_at: b.created_at,
+        amount: b.amount,
+        status: b.status
+      })) || [];
+
+      // Fetch active disputes
+      const { data: disputesData } = await supabase
+        .from('disputes')
+        .select(`
+          id,
+          booking_id,
+          issue_description,
+          status,
+          created_at,
+          customer:customer_id(full_name),
+          provider:provider_id(full_name)
+        `)
+        .in('status', ['open', 'investigating'])
+        .order('created_at', { ascending: false })
+        .limit(2);
+
+      const formattedDisputes = disputesData?.map(d => ({
+        id: d.id,
+        booking_id: d.booking_id,
+        customer_name: d.customer?.full_name || 'Unknown',
+        provider_name: d.provider?.full_name || 'Unknown',
+        issue_description: d.issue_description,
+        status: d.status,
+        created_at: d.created_at
+      })) || [];
+
+      // Fetch top performing states
+      const { data: stateData } = await supabase
+        .from('bookings')
+        .select('state, amount')
+        .eq('status', 'completed');
+
+      const stateStats: { [key: string]: { bookings: number; revenue: number } } = {};
+      stateData?.forEach(booking => {
+        if (booking.state) {
+          if (!stateStats[booking.state]) {
+            stateStats[booking.state] = { bookings: 0, revenue: 0 };
+          }
+          stateStats[booking.state].bookings += 1;
+          stateStats[booking.state].revenue += booking.amount || 0;
+        }
+      });
+
+      const topStatesList = Object.entries(stateStats)
+        .map(([state, data]) => ({
+          state,
+          bookings: data.bookings,
+          revenue: data.revenue
+        }))
+        .sort((a, b) => b.bookings - a.bookings)
+        .slice(0, 4);
+
+      setStats({
+        totalUsers: totalUsers || 0,
+        activeBookings: activeBookings || 0,
+        monthlyRevenue,
+        platformRating: avgRating
+      });
+      setRecentBookings(formattedBookings);
+      setDisputes(formattedDisputes);
+      setTopStates(topStatesList);
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatCurrency = (amount: number) => {
+    if (amount >= 1000000) {
+      return `₦${(amount / 1000000).toFixed(1)}M`;
+    } else if (amount >= 1000) {
+      return `₦${(amount / 1000).toFixed(0)}K`;
+    }
+    return `₦${amount.toLocaleString()}`;
+  };
+
+  const statsDisplay = [
     {
-      id: '1',
-      booking: 'BK-001',
-      customer: 'John Doe',
-      serviceProvider: 'Ahmed Ali',
-      issue: 'Payment dispute',
-      status: 'open',
-      date: '2024-01-22'
+      label: 'Total Users',
+      value: stats.totalUsers.toLocaleString(),
+      icon: Users
     },
     {
-      id: '2',
-      booking: 'BK-002',
-      customer: 'Jane Smith',
-      serviceProvider: 'David Ogun',
-      issue: 'Quality complaint',
-      status: 'investigating',
-      date: '2024-01-21'
+      label: 'Active Bookings',
+      value: stats.activeBookings.toLocaleString(),
+      icon: Calendar
+    },
+    {
+      label: 'Monthly Revenue',
+      value: formatCurrency(stats.monthlyRevenue),
+      icon: DollarSign
+    },
+    {
+      label: 'Platform Rating',
+      value: stats.platformRating > 0 ? stats.platformRating.toFixed(1) : 'N/A',
+      icon: Star
     }
-  ];
-
-  const topStates = [
-    { state: 'Lagos', bookings: 4580, revenue: '₦1.2M' },
-    { state: 'Abuja (FCT)', bookings: 2340, revenue: '₦650K' },
-    { state: 'Rivers', bookings: 1890, revenue: '₦420K' },
-    { state: 'Kano', bookings: 1650, revenue: '₦380K' }
   ];
 
   const getStatusColor = (status: string) => {
@@ -118,6 +239,17 @@ export function AdminDashboard() {
   const getStatusText = (status: string) => {
     return status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ');
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-forest-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading dashboard data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -170,18 +302,12 @@ export function AdminDashboard() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => {
+        {statsDisplay.map((stat, index) => {
           const Icon = stat.icon;
-          const isIncrease = stat.changeType === 'increase';
           return (
             <div key={index} className="bg-white p-6 rounded-lg shadow-sm border">
               <div className="flex items-center justify-between mb-4">
                 <Icon className="h-8 w-8 text-gray-400" />
-                <span className={`text-sm font-medium ${
-                  isIncrease ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {stat.change}
-                </span>
               </div>
               <p className="text-sm font-medium text-gray-600">{stat.label}</p>
               <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
@@ -206,26 +332,34 @@ export function AdminDashboard() {
           </div>
 
           <div className="divide-y">
-            {recentBookings.map(booking => (
-              <div key={booking.id} className="p-6 hover:bg-gray-50 transition-colors">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-medium text-gray-900">{booking.service}</h3>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(booking.status)}`}>
-                    {getStatusText(booking.status)}
-                  </span>
-                </div>
-                
-                <div className="text-sm text-gray-600 space-y-1">
-                  <p>Customer: {booking.customer}</p>
-                  <p>Service Provider: {booking.serviceProvider}</p>
-                  <p>Amount: ₦{booking.amount.toLocaleString()}</p>
-                </div>
-                
-                <div className="text-xs text-gray-500 mt-2">
-                  {new Date(booking.date).toLocaleDateString()}
-                </div>
+            {recentBookings.length === 0 ? (
+              <div className="p-12 text-center">
+                <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                <p className="text-gray-500">No bookings yet</p>
+                <p className="text-sm text-gray-400 mt-1">Bookings will appear here once customers start using the platform</p>
               </div>
-            ))}
+            ) : (
+              recentBookings.map(booking => (
+                <div key={booking.id} className="p-6 hover:bg-gray-50 transition-colors">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-medium text-gray-900">{booking.service_category}</h3>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(booking.status)}`}>
+                      {getStatusText(booking.status)}
+                    </span>
+                  </div>
+
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <p>Customer: {booking.customer_name}</p>
+                    <p>Service Provider: {booking.provider_name}</p>
+                    <p>Amount: ₦{booking.amount.toLocaleString()}</p>
+                  </div>
+
+                  <div className="text-xs text-gray-500 mt-2">
+                    {new Date(booking.created_at).toLocaleDateString()}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
@@ -244,26 +378,34 @@ export function AdminDashboard() {
           </div>
 
           <div className="divide-y">
-            {disputes.map(dispute => (
-              <div key={dispute.id} className="p-6 hover:bg-gray-50 transition-colors">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-medium text-gray-900">{dispute.issue}</h3>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(dispute.status)}`}>
-                    {getStatusText(dispute.status)}
-                  </span>
-                </div>
-                
-                <div className="text-sm text-gray-600 space-y-1">
-                  <p>Booking: {dispute.booking}</p>
-                  <p>Customer: {dispute.customer}</p>
-                  <p>Service Provider: {dispute.serviceProvider}</p>
-                </div>
-                
-                <div className="text-xs text-gray-500 mt-2">
-                  {new Date(dispute.date).toLocaleDateString()}
-                </div>
+            {disputes.length === 0 ? (
+              <div className="p-12 text-center">
+                <CheckCircle className="h-12 w-12 text-green-300 mx-auto mb-4" />
+                <p className="text-gray-500">No active disputes</p>
+                <p className="text-sm text-gray-400 mt-1">All clear! Disputes will be shown here when they arise</p>
               </div>
-            ))}
+            ) : (
+              disputes.map(dispute => (
+                <div key={dispute.id} className="p-6 hover:bg-gray-50 transition-colors">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-medium text-gray-900">{dispute.issue_description}</h3>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(dispute.status)}`}>
+                      {getStatusText(dispute.status)}
+                    </span>
+                  </div>
+
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <p>Booking: {dispute.booking_id}</p>
+                    <p>Customer: {dispute.customer_name}</p>
+                    <p>Service Provider: {dispute.provider_name}</p>
+                  </div>
+
+                  <div className="text-xs text-gray-500 mt-2">
+                    {new Date(dispute.created_at).toLocaleDateString()}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -275,19 +417,27 @@ export function AdminDashboard() {
         </div>
 
         <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {topStates.map((state, index) => (
-              <div key={index} className="text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <MapPin className="h-5 w-5 text-forest-600 mr-1" />
-                  <h3 className="font-medium text-gray-900">{state.state}</h3>
+          {topStates.length === 0 ? (
+            <div className="py-12 text-center">
+              <MapPin className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+              <p className="text-gray-500">No state data yet</p>
+              <p className="text-sm text-gray-400 mt-1">State performance data will appear once bookings are made</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {topStates.map((state, index) => (
+                <div key={index} className="text-center">
+                  <div className="flex items-center justify-center mb-2">
+                    <MapPin className="h-5 w-5 text-forest-600 mr-1" />
+                    <h3 className="font-medium text-gray-900">{state.state}</h3>
+                  </div>
+                  <p className="text-2xl font-bold text-forest-600">{state.bookings}</p>
+                  <p className="text-sm text-gray-600">bookings</p>
+                  <p className="text-sm font-medium text-gray-900 mt-1">{formatCurrency(state.revenue)}</p>
                 </div>
-                <p className="text-2xl font-bold text-forest-600">{state.bookings}</p>
-                <p className="text-sm text-gray-600">bookings</p>
-                <p className="text-sm font-medium text-gray-900 mt-1">{state.revenue}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -302,25 +452,27 @@ export function AdminDashboard() {
             <div className="text-center">
               <div className="flex items-center justify-center mb-2">
                 <CheckCircle className="h-6 w-6 text-forest-600 mr-2" />
-                <span className="text-lg font-semibold text-gray-900">96.5%</span>
+                <span className="text-lg font-semibold text-gray-900">
+                  {stats.platformRating > 0 ? stats.platformRating.toFixed(1) : 'N/A'}
+                </span>
               </div>
-              <p className="text-sm text-gray-600">Success Rate</p>
+              <p className="text-sm text-gray-600">Platform Rating</p>
             </div>
 
             <div className="text-center">
               <div className="flex items-center justify-center mb-2">
-                <TrendingUp className="h-6 w-6 text-forest-600 mr-2" />
-                <span className="text-lg font-semibold text-gray-900">2.3 hrs</span>
+                <Calendar className="h-6 w-6 text-forest-600 mr-2" />
+                <span className="text-lg font-semibold text-gray-900">{stats.activeBookings}</span>
               </div>
-              <p className="text-sm text-gray-600">Avg Response Time</p>
+              <p className="text-sm text-gray-600">Active Bookings</p>
             </div>
 
             <div className="text-center">
               <div className="flex items-center justify-center mb-2">
-                <Star className="h-6 w-6 text-yellow-500 mr-2" />
-                <span className="text-lg font-semibold text-gray-900">4.8/5</span>
+                <Users className="h-6 w-6 text-forest-600 mr-2" />
+                <span className="text-lg font-semibold text-gray-900">{stats.totalUsers}</span>
               </div>
-              <p className="text-sm text-gray-600">Overall Rating</p>
+              <p className="text-sm text-gray-600">Total Users</p>
             </div>
           </div>
         </div>
