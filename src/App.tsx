@@ -22,6 +22,7 @@ import { Wallet } from './pages/Wallet';
 import { AboutUs } from './pages/AboutUs';
 import { PWAInstallButton } from './components/PWAInstallButton';
 import CustomerSupport from './pages/Admin/CustomerSupport';
+import UsersManagement from './pages/Admin/UsersManagement';
 import CustomerChatbox from './components/CustomerChatbox';
 
 // Layout wrapper component
@@ -196,10 +197,7 @@ function AppRoutes() {
         path="/admin/users"
         element={
           <ProtectedRoute requiredUserType="admin">
-            <div className="text-center py-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">User Management</h2>
-              <p className="text-gray-600">Manage all platform users, verify handymen, and handle user issues.</p>
-            </div>
+            <UsersManagement />
           </ProtectedRoute>
         }
       />

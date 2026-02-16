@@ -4,7 +4,7 @@ export interface User {
   firstName: string;
   lastName: string;
   phone: string;
-  type: 'customer' | 'handyman' | 'admin';
+  type: 'customer' | 'handyman' | 'service_provider' | 'admin' | 'super_admin';
   state: string;
   lga: string;
   address?: string;

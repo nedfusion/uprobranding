@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, ServiceCategory } from '../types';
+import { supabase } from '../lib/supabase';
 
 interface AuthContextType {
   user: User | null;
@@ -15,130 +16,166 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock user data for demo
-const mockUsers: (User & { password: string })[] = [
-  {
-    id: '1',
-    email: 'customer@test.com',
-    password: 'password',
-    firstName: 'John',
-    lastName: 'Doe',
-    phone: '+2348012345678',
-    type: 'customer',
-    state: 'Lagos',
-    lga: 'Lagos Island',
-    address: '123 Victoria Island, Lagos',
-    isVerified: true,
-    createdAt: new Date()
-  },
-  {
-    id: '2',
-    email: 'handyman@test.com',
-    password: 'password',
-    firstName: 'Ahmed',
-    lastName: 'Ibrahim',
-    phone: '+2348087654321',
-    type: 'service_provider',
-    state: 'Lagos',
-    lga: 'Surulere',
-    address: '456 Surulere, Lagos',
-    profileImage: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=1',
-    isVerified: true,
-    createdAt: new Date()
-  },
-  {
-    id: '3',
-    email: 'admin@test.com',
-    password: 'password',
-    firstName: 'Admin',
-    lastName: 'User',
-    phone: '+2348099999999',
-    type: 'admin',
-    state: 'FCT',
-    lga: 'Abuja',
-    isVerified: true,
-    createdAt: new Date()
-  }
-];
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in on app start
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    setLoading(false);
+    checkUser();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        await loadUserProfile(session.user.id);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => {
+      authListener?.subscription.unsubscribe();
+    };
   }, []);
+
+  const checkUser = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        await loadUserProfile(session.user.id);
+      }
+    } catch (error) {
+      console.error('Error checking user:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadUserProfile = async (userId: string) => {
+    try {
+      const { data: profile, error } = await supabase
+        .from('users_profile')
+        .select('*')
+        .eq('id', userId)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (profile) {
+        setUser({
+          id: profile.id,
+          email: (await supabase.auth.getUser()).data.user?.email || '',
+          firstName: profile.first_name,
+          lastName: profile.last_name,
+          phone: profile.phone,
+          type: profile.user_type,
+          state: profile.state,
+          lga: profile.lga,
+          address: profile.address,
+          profileImage: profile.profile_image,
+          isVerified: profile.is_verified,
+          createdAt: new Date(profile.created_at)
+        });
+      }
+    } catch (error) {
+      console.error('Error loading user profile:', error);
+    }
+  };
 
   const login = async (email: string, password: string) => {
     setLoading(true);
-    
-    // Mock authentication
-    const foundUser = mockUsers.find(u => u.email === email && u.password === password);
-    if (!foundUser) {
-      setLoading(false);
-      throw new Error('Invalid email or password');
-    }
 
-    const { password: _, ...userWithoutPassword } = foundUser;
-    setUser(userWithoutPassword);
-    localStorage.setItem('user', JSON.stringify(userWithoutPassword));
-    setLoading(false);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        await loadUserProfile(data.user.id);
+      }
+    } catch (error: any) {
+      throw new Error(error.message || 'Invalid email or password');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const register = async (userData: Partial<User> & { 
-    password: string; 
+  const register = async (userData: Partial<User> & {
+    password: string;
     serviceCategories?: ServiceCategory[];
     profilePicture?: File | null;
   }) => {
     setLoading(true);
-    
-    // Simulate profile picture upload
-    let profileImageUrl = null;
-    if (userData.profilePicture) {
-      // In a real app, this would upload to a cloud storage service
-      profileImageUrl = URL.createObjectURL(userData.profilePicture);
-    }
-    
-    // Mock registration with enhanced data
-    const newUser: User = {
-      id: Date.now().toString(),
-      email: userData.email!,
-      firstName: userData.firstName!,
-      lastName: userData.lastName!,
-      phone: userData.phone!,
-      type: userData.type!,
-      state: userData.state!,
-      lga: userData.lga!,
-      address: userData.address,
-      profileImage: profileImageUrl,
-      isVerified: false,
-      createdAt: new Date()
-    };
 
-    // Store additional handyman data (in a real app, this would go to a separate handyman_profiles table)
-    if (userData.type === 'service_provider' && userData.serviceCategories) {
-      localStorage.setItem(`service_provider_profile_${newUser.id}`, JSON.stringify({
-        serviceCategories: userData.serviceCategories,
-        skills: userData.serviceCategories, // For backward compatibility
-        experience: 0,
-        rating: 0,
-        totalJobs: 0
-      }));
-    }
+    try {
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: userData.email!,
+        password: userData.password
+      });
 
-    setUser(newUser);
-    localStorage.setItem('user', JSON.stringify(newUser));
-    setLoading(false);
+      if (authError) throw authError;
+      if (!authData.user) throw new Error('Failed to create user');
+
+      let profileImageUrl = null;
+      if (userData.profilePicture) {
+        const fileExt = userData.profilePicture.name.split('.').pop();
+        const fileName = `${authData.user.id}.${fileExt}`;
+        const { error: uploadError, data: uploadData } = await supabase.storage
+          .from('profiles')
+          .upload(fileName, userData.profilePicture);
+
+        if (!uploadError && uploadData) {
+          const { data: { publicUrl } } = supabase.storage
+            .from('profiles')
+            .getPublicUrl(fileName);
+          profileImageUrl = publicUrl;
+        }
+      }
+
+      const { error: profileError } = await supabase
+        .from('users_profile')
+        .insert({
+          id: authData.user.id,
+          first_name: userData.firstName!,
+          last_name: userData.lastName!,
+          phone: userData.phone!,
+          user_type: userData.type!,
+          state: userData.state!,
+          lga: userData.lga!,
+          address: userData.address,
+          profile_image: profileImageUrl,
+          is_verified: false
+        });
+
+      if (profileError) throw profileError;
+
+      if (userData.type === 'service_provider' && userData.serviceCategories) {
+        const { error: providerError } = await supabase
+          .from('service_providers')
+          .insert({
+            user_id: authData.user.id,
+            service_categories: userData.serviceCategories,
+            bio: '',
+            experience_years: 0,
+            rating: 0,
+            total_jobs: 0
+          });
+
+        if (providerError) throw providerError;
+      }
+
+      await loadUserProfile(authData.user.id);
+    } catch (error: any) {
+      throw new Error(error.message || 'Registration failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await supabase.auth.signOut();
     setUser(null);
-    localStorage.removeItem('user');
   };
 
   return (
