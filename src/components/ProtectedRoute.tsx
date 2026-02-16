@@ -26,10 +26,17 @@ export function ProtectedRoute({ children, requiredUserType }: ProtectedRoutePro
     return <Navigate to="/auth/login" state={{ from: location }} replace />;
   }
 
-  if (requiredUserType && user.type !== requiredUserType) {
-    // Redirect to appropriate dashboard based on user type
-    const redirectPath = `/${user.type}/dashboard`;
-    return <Navigate to={redirectPath} replace />;
+  if (requiredUserType) {
+    const hasAccess = requiredUserType === 'admin'
+      ? (user.type === 'admin' || user.type === 'super_admin')
+      : user.type === requiredUserType;
+
+    if (!hasAccess) {
+      const redirectPath = user.type === 'admin' || user.type === 'super_admin'
+        ? '/admin/dashboard'
+        : `/${user.type}/dashboard`;
+      return <Navigate to={redirectPath} replace />;
+    }
   }
 
   return <>{children}</>;
