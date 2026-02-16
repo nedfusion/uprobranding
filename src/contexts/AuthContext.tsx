@@ -23,12 +23,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     checkUser();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session?.user) {
-        await loadUserProfile(session.user.id);
-      } else {
-        setUser(null);
-      }
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      (async () => {
+        try {
+          if (session?.user) {
+            await loadUserProfile(session.user.id);
+          } else {
+            setUser(null);
+          }
+        } catch (error) {
+          console.error('Error loading user profile:', error);
+          setUser(null);
+        }
+      })();
     });
 
     return () => {
@@ -44,39 +51,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (error) {
       console.error('Error checking user:', error);
+      setUser(null);
     } finally {
       setLoading(false);
     }
   };
 
   const loadUserProfile = async (userId: string) => {
-    try {
-      const { data: profile, error } = await supabase
-        .from('users_profile')
-        .select('*')
-        .eq('id', userId)
-        .maybeSingle();
+    const { data: profile, error } = await supabase
+      .from('users_profile')
+      .select('*')
+      .eq('id', userId)
+      .maybeSingle();
 
-      if (error) throw error;
+    if (error) throw error;
 
-      if (profile) {
-        setUser({
-          id: profile.id,
-          email: (await supabase.auth.getUser()).data.user?.email || '',
-          firstName: profile.first_name,
-          lastName: profile.last_name,
-          phone: profile.phone,
-          type: profile.user_type,
-          state: profile.state,
-          lga: profile.lga,
-          address: profile.address,
-          profileImage: profile.profile_image,
-          isVerified: profile.is_verified,
-          createdAt: new Date(profile.created_at)
-        });
-      }
-    } catch (error) {
-      console.error('Error loading user profile:', error);
+    if (profile) {
+      setUser({
+        id: profile.id,
+        email: (await supabase.auth.getUser()).data.user?.email || '',
+        firstName: profile.first_name,
+        lastName: profile.last_name,
+        phone: profile.phone,
+        type: profile.user_type,
+        state: profile.state,
+        lga: profile.lga,
+        address: profile.address,
+        profileImage: profile.profile_image,
+        isVerified: profile.is_verified,
+        createdAt: new Date(profile.created_at)
+      });
     }
   };
 
