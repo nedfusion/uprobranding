@@ -20,9 +20,7 @@ export function LoginForm() {
 
     try {
       await login(email, password);
-      
-      // Redirect based on user type (will be handled by the auth context)
-      navigate('/');
+      navigate('/dashboard');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
     } finally {

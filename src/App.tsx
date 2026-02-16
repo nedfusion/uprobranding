@@ -283,7 +283,10 @@ function AppRoutes() {
         path="/dashboard"
         element={
           user ? (
-            <Navigate to={`/${user.type}/dashboard`} replace />
+            <Navigate
+              to={`/${user.type === 'super_admin' ? 'admin' : user.type}/dashboard`}
+              replace
+            />
           ) : (
             <Navigate to="/auth/login" replace />
           )
