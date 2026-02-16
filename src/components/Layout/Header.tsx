@@ -27,7 +27,9 @@ export function Header() {
     switch (user.type) {
       case 'customer': return '/customer/dashboard';
       case 'service_provider': return '/service-provider/dashboard';
-      case 'admin': return '/admin/dashboard';
+      case 'admin':
+      case 'super_admin':
+        return '/admin/dashboard';
       default: return '/';
     }
   };
@@ -187,7 +189,9 @@ export function Header() {
                     </div>
                     <div>
                       <p className="font-medium text-gray-900">{user.firstName} {user.lastName}</p>
-                      <p className="text-sm text-gray-500 capitalize">{user.type}</p>
+                      <p className="text-sm text-gray-500 capitalize">
+                        {user.type === 'super_admin' ? 'Super Admin' : user.type.replace('_', ' ')}
+                      </p>
                     </div>
                   </div>
 

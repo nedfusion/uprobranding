@@ -50,6 +50,7 @@ export function Sidebar() {
         ];
 
       case 'admin':
+      case 'super_admin':
         return [
           { icon: Home, label: 'Dashboard', path: '/admin/dashboard' },
           { icon: Users, label: 'Users', path: '/admin/users' },
@@ -95,7 +96,7 @@ export function Sidebar() {
 
         <div className="p-4 border-b">
           <h3 className="font-semibold text-gray-900 capitalize">
-            {user.type} Panel
+            {user.type === 'super_admin' ? 'Super Admin' : user.type.replace('_', ' ')} Panel
           </h3>
           <p className="text-sm text-gray-500">{user.firstName} {user.lastName}</p>
         </div>
