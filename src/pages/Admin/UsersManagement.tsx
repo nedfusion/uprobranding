@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { User, Search, Edit, Trash2, Plus, X, Shield, CheckCircle, XCircle } from 'lucide-react';
+import { User, Search, CreditCard as Edit, Trash2, Plus, X, Shield, CheckCircle, XCircle } from 'lucide-react';
 
 interface UserProfile {
   id: string;
@@ -44,6 +44,25 @@ export default function UsersManagement() {
     }
   }, [user, filterType]);
 
+  const callAdminFunction = async (payload: object) => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) throw new Error('Not authenticated');
+
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const res = await fetch(`${supabaseUrl}/functions/v1/admin-user-management`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || 'Request failed');
+    return json;
+  };
+
   const loadUsers = async () => {
     setLoading(true);
     try {
@@ -57,20 +76,15 @@ export default function UsersManagement() {
       }
 
       const { data, error } = await query;
-
       if (error) throw error;
 
-      const usersWithEmails = await Promise.all(
-        (data || []).map(async (profile) => {
-          const { data: authUser } = await supabase.auth.admin.getUserById(profile.id);
-          return {
-            ...profile,
-            email: authUser?.user?.email || ''
-          };
-        })
-      );
+      const profiles = data || [];
+      const ids = profiles.map(p => p.id);
 
-      setUsers(usersWithEmails);
+      // Fetch emails via edge function
+      const { emailMap } = await callAdminFunction({ action: 'get_user_emails', userIds: ids });
+
+      setUsers(profiles.map(p => ({ ...p, email: emailMap[p.id] || '' })));
     } catch (error) {
       console.error('Error loading users:', error);
     } finally {
@@ -83,42 +97,18 @@ export default function UsersManagement() {
     setLoading(true);
 
     try {
-      const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+      await callAdminFunction({
+        action: 'create_user',
         email: formData.email,
         password: formData.password,
-        email_confirm: true
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        phone: formData.phone,
+        user_type: formData.user_type,
+        state: formData.state,
+        lga: formData.lga,
+        address: formData.address,
       });
-
-      if (authError) throw authError;
-      if (!authData.user) throw new Error('Failed to create user');
-
-      const { error: profileError } = await supabase
-        .from('users_profile')
-        .insert({
-          id: authData.user.id,
-          first_name: formData.first_name,
-          last_name: formData.last_name,
-          phone: formData.phone,
-          user_type: formData.user_type,
-          state: formData.state,
-          lga: formData.lga,
-          address: formData.address,
-          is_verified: true,
-          is_active: true
-        });
-
-      if (profileError) throw profileError;
-
-      if (formData.user_type === 'service_provider') {
-        await supabase.from('service_providers').insert({
-          user_id: authData.user.id,
-          bio: '',
-          service_categories: [],
-          experience_years: 0
-        });
-      }
-
-      await logAdminAction('create_user', 'user', authData.user.id);
 
       setShowModal(false);
       resetForm();
@@ -212,11 +202,7 @@ export default function UsersManagement() {
     }
 
     try {
-      const { error } = await supabase.auth.admin.deleteUser(userId);
-
-      if (error) throw error;
-
-      await logAdminAction('delete_user', 'user', userId);
+      await callAdminFunction({ action: 'delete_user', userId });
       await loadUsers();
       alert('User deleted successfully!');
     } catch (error: any) {
